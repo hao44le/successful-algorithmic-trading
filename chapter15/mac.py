@@ -61,10 +61,10 @@ class MovingAverageCrossStrategy(Strategy):
         """
         Generates a new set of signals based on the MAC
         SMA with the short window crossing the long window
-        meaning a long entry and vice versa for a short entry.    
+        meaning a long entry and vice versa for a short entry.
 
         Parameters
-        event - A MarketEvent object. 
+        event - A MarketEvent object.
         """
         if event.type == 'MARKET':
             for s in self.symbol_list:
@@ -95,15 +95,15 @@ class MovingAverageCrossStrategy(Strategy):
 
 
 if __name__ == "__main__":
-    csv_dir = '/path/to/your/csv/file'  # CHANGE THIS!
+    csv_dir = 'csv'  # CHANGE THIS!
     symbol_list = ['AAPL']
     initial_capital = 100000.0
     heartbeat = 0.0
     start_date = datetime.datetime(1990, 1, 1, 0, 0, 0)
 
     backtest = Backtest(
-        csv_dir, symbol_list, initial_capital, heartbeat, 
-        start_date, HistoricCSVDataHandler, SimulatedExecutionHandler, 
+        csv_dir, symbol_list, initial_capital, heartbeat,
+        start_date, HistoricCSVDataHandler, SimulatedExecutionHandler,
         Portfolio, MovingAverageCrossStrategy
     )
     backtest.simulate_trading()

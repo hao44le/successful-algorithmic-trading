@@ -45,11 +45,11 @@ class SPYDailyForecastStrategy(Strategy):
     def create_symbol_forecast_model(self):
         # Create a lagged series of the S&P500 US stock market index
         snpret = create_lagged_series(
-            self.symbol_list[0], self.model_start_date, 
+            self.symbol_list[0], self.model_start_date,
             self.model_end_date, lags=5
         )
 
-        # Use the prior two days of returns as predictor 
+        # Use the prior two days of returns as predictor
         # values, with direction as the response
         X = snpret[["Lag1","Lag2"]]
         y = snpret["Direction"]
@@ -60,7 +60,7 @@ class SPYDailyForecastStrategy(Strategy):
         X_test = X[X.index >= start_test]
         y_train = y[y.index < start_test]
         y_test = y[y.index >= start_test]
-       
+
         model = QDA()
         model.fit(X_train, y_train)
         return model
@@ -80,7 +80,7 @@ class SPYDailyForecastStrategy(Strategy):
                 )
                 pred_series = pd.Series(
                     {
-                        'Lag1': lags[1]*100.0, 
+                        'Lag1': lags[1]*100.0,
                         'Lag2': lags[2]*100.0
                     }
                 )
@@ -97,15 +97,15 @@ class SPYDailyForecastStrategy(Strategy):
 
 
 if __name__ == "__main__":
-    csv_dir = '/path/to/your/csv/file'  # CHANGE THIS!
+    csv_dir = 'csv'  # CHANGE THIS!
     symbol_list = ['SPY']
     initial_capital = 100000.0
     heartbeat = 0.0
     start_date = datetime.datetime(2006,1,3)
 
     backtest = Backtest(
-        csv_dir, symbol_list, initial_capital, heartbeat, 
-        start_date, HistoricCSVDataHandler, SimulatedExecutionHandler, 
+        csv_dir, symbol_list, initial_capital, heartbeat,
+        start_date, HistoricCSVDataHandler, SimulatedExecutionHandler,
         Portfolio, SPYDailyForecastStrategy
     )
     backtest.simulate_trading()

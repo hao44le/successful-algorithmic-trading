@@ -7,24 +7,23 @@ import datetime
 
 import numpy as np
 import pandas as pd
-from pandas.io.data import DataReader
-
+from pandas_datareader.data import DataReader
 
 def create_lagged_series(symbol, start_date, end_date, lags=5):
     """
-    This creates a pandas DataFrame that stores the 
-    percentage returns of the adjusted closing value of 
-    a stock obtained from Yahoo Finance, along with a 
-    number of lagged returns from the prior trading days 
-    (lags defaults to 5 days). Trading volume, as well as 
+    This creates a pandas DataFrame that stores the
+    percentage returns of the adjusted closing value of
+    a stock obtained from Yahoo Finance, along with a
+    number of lagged returns from the prior trading days
+    (lags defaults to 5 days). Trading volume, as well as
     the Direction from the previous day, are also included.
     """
 
     # Obtain stock information from Yahoo Finance
     ts = DataReader(
-    	symbol, "yahoo", 
-    	start_date-datetime.timedelta(days=365), 
-    	end_date
+        symbol, "yahoo",
+        start_date-datetime.timedelta(days=365),
+        end_date
     )
 
     # Create the new lagged DataFrame
