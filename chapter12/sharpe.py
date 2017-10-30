@@ -8,8 +8,7 @@ from __future__ import print_function
 import datetime
 import numpy as np
 import pandas as pd
-import pandas.io.data as web
-
+import pandas_datareader.data as web
 
 def annualised_sharpe(returns, N=252):
     """
@@ -77,10 +76,10 @@ def market_neutral_sharpe(ticker, benchmark):
 
 if __name__ == "__main__":
     print(
-        "Google Sharpe Ratio: %s" % 
+        "Google Sharpe Ratio: %s" %
         equity_sharpe('GOOG')
     )
     print(
-        "Google Market Neutral Sharpe Ratio: %s" % 
+        "Google Market Neutral Sharpe Ratio: %s" %
         market_neutral_sharpe('GOOG', 'SPY')
     )
