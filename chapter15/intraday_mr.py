@@ -29,9 +29,9 @@ class IntradayOLSMRStrategy(Strategy):
     (for the high threshold) or an exit signal pair are generated (for the
     low threshold).
     """
-    
+
     def __init__(
-        self, bars, events, ols_window=100, 
+        self, bars, events, ols_window=100,
         zscore_low=0.5, zscore_high=3.0
     ):
         """
@@ -69,7 +69,7 @@ class IntradayOLSMRStrategy(Strategy):
         dt = self.datetime
         hr = abs(self.hedge_ratio)
 
-        # If we're long the market and below the 
+        # If we're long the market and below the
         # negative of the high zscore threshold
         if zscore_last <= -self.zscore_high and not self.long_market:
             self.long_market = True
@@ -83,7 +83,7 @@ class IntradayOLSMRStrategy(Strategy):
             y_signal = SignalEvent(1, p0, dt, 'EXIT', 1.0)
             x_signal = SignalEvent(1, p1, dt, 'EXIT', 1.0)
 
-        # If we're short the market and above  
+        # If we're short the market and above
         # the high zscore threshold
         if zscore_last >= self.zscore_high and not self.short_market:
             self.short_market = True
@@ -104,10 +104,10 @@ class IntradayOLSMRStrategy(Strategy):
         Generates a new set of signals based on the mean reversion
         strategy.
 
-        Calculates the hedge ratio between the pair of tickers. 
+        Calculates the hedge ratio between the pair of tickers.
         We use OLS for this, althought we should ideall use CADF.
         """
-        # Obtain the latest window of values for each 
+        # Obtain the latest window of values for each
         # component of the pair of tickers
         y = self.bars.get_latest_bars_values(
             self.pair[0], "close", N=self.ols_window
@@ -141,15 +141,15 @@ class IntradayOLSMRStrategy(Strategy):
 
 
 if __name__ == "__main__":
-    csv_dir = '/path/to/your/csv/file'  # CHANGE THIS!
+    csv_dir = 'csv'  # CHANGE THIS!
     symbol_list = ['AREX', 'WLL']
     initial_capital = 100000.0
     heartbeat = 0.0
     start_date = datetime.datetime(2007, 11, 8, 10, 41, 0)
 
     backtest = Backtest(
-        csv_dir, symbol_list, initial_capital, heartbeat, 
-        start_date, HistoricCSVDataHandlerHFT, SimulatedExecutionHandler, 
+        csv_dir, symbol_list, initial_capital, heartbeat,
+        start_date, HistoricCSVDataHandlerHFT, SimulatedExecutionHandler,
         PortfolioHFT, IntradayOLSMRStrategy
     )
     backtest.simulate_trading()
